@@ -1,0 +1,1 @@
+fanat, apple, abracadabra, Tarantino, yahoo, yandex, gool, logo
