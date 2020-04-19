@@ -1,12 +1,10 @@
-nums = [i for i in range(0, 19)]
-nums.reverse()
-for i in nums:
-    if i == 3:
-        break
+spaces = 0
+for i in range(19, 3, -1):
     if i % 2 == 0:
-        spaces = [c for c in range(4, 18, 2)]
+        spaces += 1
         print(' ' * spaces, '$' * i)
-    # if i == 4:
-    #     for b in range(18)[4:]:
-    #         if i % 2 == 0:
-    #             print(' ' * b, '$' * b)
+for b in range(4, 19):
+    if b % 2 == 0:
+        if spaces <= 8:
+            spaces -= 1
+            print(' ' * spaces + ' ', '$' * b)
