@@ -2,5 +2,7 @@ name = ['Ваня', 'Даня', 'Саня']
 action = ['учит', 'знает', 'выбирает']
 lang = ['Python', 'PHP', 'C#']
 
-for i in name[0::]:
-    print(i)
+for b in name:
+    for i in action:
+        for iz in lang:
+            print(b, i, iz)
