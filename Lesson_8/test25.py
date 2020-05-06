@@ -3,7 +3,3 @@ def textch(arg):
     print('+-' * len(arg) + '+')
     print('|' + middle + '|')
     print('+-' * len(arg) + '+')
-
-
-m = input('Введите текст: ')
-textch(m)
