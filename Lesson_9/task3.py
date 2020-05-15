@@ -1,4 +1,5 @@
 import time
+
 try:
     number = int(input('Введите число от 10 до 30: '))
 except ValueError:
