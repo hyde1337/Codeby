@@ -11,6 +11,10 @@ except KeyboardInterrupt:
 else:
     if 1 <= number <= 10:
         number2 = random.randint(10, 100)
-        print(sum(range(number, number2)))
+        if number == number2:
+            print(number + number2)
+        else:
+            print(sum(range(number, number2)))
+
     else:
         print('Введите число от 1 до 10')
