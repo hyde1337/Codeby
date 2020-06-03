@@ -12,5 +12,11 @@ class Valera:
         print('В предложении', target_length, 'символов')
 
 
-x = Valera()
+
 print(Valera.__doc__)
+
+x = Valera()
+d = 'test a'
+
+print(x.valera_method(d))
+print(Valera().valera_method(d))
