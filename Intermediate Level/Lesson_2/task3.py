@@ -1,6 +1,7 @@
 import os
 import argparse
 import stat
+import sys
 
 
 class Commands:
@@ -10,28 +11,39 @@ class Commands:
         self.tree = args.tree
         if self.value == 'system':
             self.system_commands(self.value)
+        else:
+            self.fast_commands(self.value)
         if self.chmod == 'chmod':
             self.chmod_path(self.chmod)
         if self.tree == 'tree':
             self.tree_path(self.tree)
+        if len(sys.argv) == 1:
+            os.system('python task3.py --help')
 
     @staticmethod
     def system_commands(value):
         while value:
-            command = str(input('Shell Command: '))
-            if command == 'exit':
+            if (command := str(input('Shell Command: '))) == 'exit':
                 print('The work was completed!')
                 break
-            if command != '0':
+            if str(os.system(command))[0] != '0':
                 print('Wrong Command, exit!')
                 break
-            print(str(os.system(command))[10:])
+
+    @staticmethod
+    def fast_commands(value):
+        while value:
+            if value == 'exit':
+                print('The work was completed!')
+                break
+            elif str(os.system(value))[0] != '0':
+                print('Wrong Command, exit!')
+                break
 
     @staticmethod
     def chmod_path(chmod):
         while chmod:
-            command = str(input('Enter the path: '))
-            if command == 'exit':
+            if (command := str(input('Enter the path: '))) == 'exit':
                 print('The work was completed!')
                 break
             try:
@@ -46,16 +58,14 @@ class Commands:
             if command == 'exit':
                 print('The work was completed!')
                 break
-            for root, dirs, files in os.walk(command):
-                level = root.replace(command, '').count(os.sep)
-                indent = ' ' * 5 * level
-                subindent = ' ' * 4 * (level + 1)
-                print('{}|-{}'.format(indent, os.path.basename(root)))
-                for f in files:
-                    print('|{}|-{}'.format(subindent, f))
+            if os.path.exists(command) is True:
+                print(str(os.system('tree -n ' + command))[10:])
+                print(str(os.system('tree -n ' + command + '>> test{}'.format('wood_' + command.split('/')[-1])))[10:])
+            else:
+                print('The path or directory doesnt exist!')
 
 
-parser = argparse.ArgumentParser(description='Выделяет заданное значение и выводит строку с ним в консоль')
+parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--value', type=str, help='System Command')
 parser.add_argument('-c', '--chmod', type=str, help='Checking Access Rights')
 parser.add_argument('-t', '--tree', type=str, help='Directory Tree')
