@@ -1,68 +1,35 @@
 import os
 import argparse
 import stat
-import sys
 
 
 class Commands:
-    def __init__(self):
-        self.value = args.value
-        self.chmod = args.chmod
-        self.tree = args.tree
-        if self.value == 'system':
-            self.system_commands(self.value)
-        else:
-            self.fast_commands(self.value)
-        if self.chmod == 'chmod':
-            self.chmod_path(self.chmod)
-        if self.tree == 'tree':
-            self.tree_path(self.tree)
-        if len(sys.argv) == 1:
-            os.system('python task3.py --help')
-
-    @staticmethod
-    def system_commands(value):
-        while value:
-            if (command := str(input('Shell Command: '))) == 'exit':
-                print('The work was completed!')
-                break
+    def system_commands(self):
+        while (command := input('Shell Command: ')) != 'exit':
             if str(os.system(command))[0] != '0':
                 print('Wrong Command, exit!')
                 break
+        else:
+            print('The work was completed!')
 
-    @staticmethod
-    def fast_commands(value):
-        while value:
-            if value == 'exit':
-                print('The work was completed!')
-                break
-            elif str(os.system(value))[0] != '0':
-                print('Wrong Command, exit!')
-                break
-
-    @staticmethod
-    def chmod_path(chmod):
-        while chmod:
-            if (command := str(input('Enter the path: '))) == 'exit':
-                print('The work was completed!')
-                break
-            try:
+    def chmod_path(self):
+        while (command := input('Enter the path: ')) != 'exit':
+            if os.path.exists(command) is True :
                 print(str(oct(stat.S_IMODE(os.lstat(command).st_mode)))[2:])
-            except FileNotFoundError:
+            else:
                 print('The file or directory does not exist!')
+        else:
+            print("The work was completed!")
 
-    @staticmethod
-    def tree_path(tree):
-        while tree:
-            command = str(input('Enter the path: '))
-            if command == 'exit':
-                print('The work was completed!')
-                break
+    def tree_path(self):
+        while (command := input('Enter the path: ')) != 'exit':
             if os.path.exists(command) is True:
                 print(str(os.system('tree -n ' + command))[10:])
-                print(str(os.system('tree -n ' + command + '>> test{}'.format('wood_' + command.split('/')[-1])))[10:])
+                os.system('tree -n ' + command + ' >> test{}'.format('wood_' + command.split('/')[-1]))
             else:
                 print('The path or directory doesnt exist!')
+        else:
+            print('The work was completed!')
 
 
 parser = argparse.ArgumentParser()
@@ -71,5 +38,13 @@ parser.add_argument('-c', '--chmod', type=str, help='Checking Access Rights')
 parser.add_argument('-t', '--tree', type=str, help='Directory Tree')
 args = parser.parse_args()
 
+tmp = Commands()
 
-Commands()
+if args.chmod == 'chmod':
+    tmp.chmod_path()
+elif args.tree == 'tree':
+    tmp.tree_path()
+elif args.value == 'system':
+    tmp.system_commands()
+else:
+    parser.print_help()
